@@ -15,16 +15,20 @@ using System.IO;
 using System.Threading;
 using Google.Apis.Util.Store;
 using LicenseContext = OfficeOpenXml.LicenseContext;
+using Newtonsoft.Json.Converters;
+using static OfficeOpenXml.ExcelErrorValue;
 
 namespace PassportGenerator_Test {
     public partial class Form1: Form {
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         static string ApplicationName = "PassportGenerator";
+        
         public Form1() {
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e) {
+            /*
             string sheetlist_name = "Atom";
             string begin_column_address = "A";
             string begin_string_number = "3";
@@ -86,7 +90,12 @@ namespace PassportGenerator_Test {
 
                     excelPackage.Save();
                 }
-            }
+            }*/
+            string excefile_name = textBox4.Text;
+            string range = GetRangeFromTxtBox();
+            IList<IList<Object>> values = ConnectGoogleSheets(range);
+            FillInAnExcel(values, excefile_name);
+
         }
 
         /// <summary>
@@ -161,6 +170,58 @@ namespace PassportGenerator_Test {
                 startRowInExcel++;
             }
             return startRowInExcel;
+        }
+
+        /// <summary>
+        /// Метод для заполнения файла Excel данными полученными из google таблицы
+        /// </summary>
+        /// <param name="values"></param>
+        /// <param name="excefile_name"></param>
+        private void FillInAnExcel(IList<IList<Object>> values, string excefile_name) {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            // Если данные получены, они записываются в Excel
+            if (values != null && values.Count > 0) {
+                using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(excefile_name))) {
+                    //var worksheet = excelPackage.Workbook.Worksheets.Add("S1");
+                    var worksheet = excelPackage.Workbook.Worksheets[0]; // Получить первый лист
+                    int startRowInExcel = FindFirstEmptyRow(excelPackage, worksheet);
+
+                    // Очищаем документ с конца и до второй строки
+                    //ResetExcelRows(excelPackage, worksheet);
+
+                    // Заполняем excel файл данными
+                    for (int i = 0; i < values.Count; i++) {
+                        for (int j = 0; j < values[i].Count; j++) {
+                            worksheet.Cells[startRowInExcel + i, j + 1].Value = values[i][j];
+                        }
+                    }
+
+                    excelPackage.Save();
+                }
+            }
+            
+        }
+
+        /// <summary>
+        /// Действие на кнопку "Очистить excel файл"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnReset_Click(object sender, EventArgs e) {
+            string excefile_name = textBox4.Text;
+            
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(excefile_name))) {
+                
+                var worksheet = excelPackage.Workbook.Worksheets[0]; // Получить первый лист
+
+                ResetExcelRows(excelPackage, worksheet);
+
+                excelPackage.Save();
+            }
+            
+
         }
     }
 }
