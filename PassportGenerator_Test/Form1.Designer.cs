@@ -35,11 +35,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.txtBxJsonPath = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(95, 141);
+            this.button1.Location = new System.Drawing.Point(95, 154);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(156, 23);
             this.button1.TabIndex = 0;
@@ -49,7 +51,7 @@
             // 
             // txtBxStartRange
             // 
-            this.txtBxStartRange.Location = new System.Drawing.Point(201, 115);
+            this.txtBxStartRange.Location = new System.Drawing.Point(201, 128);
             this.txtBxStartRange.Name = "txtBxStartRange";
             this.txtBxStartRange.Size = new System.Drawing.Size(100, 20);
             this.txtBxStartRange.TabIndex = 1;
@@ -57,7 +59,7 @@
             // 
             // txtBxEndRange
             // 
-            this.txtBxEndRange.Location = new System.Drawing.Point(307, 115);
+            this.txtBxEndRange.Location = new System.Drawing.Point(307, 128);
             this.txtBxEndRange.Name = "txtBxEndRange";
             this.txtBxEndRange.Size = new System.Drawing.Size(100, 20);
             this.txtBxEndRange.TabIndex = 2;
@@ -65,7 +67,7 @@
             // 
             // txtBxListName
             // 
-            this.txtBxListName.Location = new System.Drawing.Point(95, 115);
+            this.txtBxListName.Location = new System.Drawing.Point(95, 128);
             this.txtBxListName.Name = "txtBxListName";
             this.txtBxListName.Size = new System.Drawing.Size(100, 20);
             this.txtBxListName.TabIndex = 3;
@@ -80,7 +82,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(257, 141);
+            this.btnReset.Location = new System.Drawing.Point(257, 154);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(150, 23);
             this.btnReset.TabIndex = 5;
@@ -90,7 +92,7 @@
             // 
             // txtBxIdTable
             // 
-            this.txtBxIdTable.Location = new System.Drawing.Point(95, 54);
+            this.txtBxIdTable.Location = new System.Drawing.Point(95, 27);
             this.txtBxIdTable.Name = "txtBxIdTable";
             this.txtBxIdTable.Size = new System.Drawing.Size(312, 20);
             this.txtBxIdTable.TabIndex = 6;
@@ -98,7 +100,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(95, 35);
+            this.label1.Location = new System.Drawing.Point(95, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 13);
             this.label1.TabIndex = 7;
@@ -107,7 +109,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(92, 99);
+            this.label2.Location = new System.Drawing.Point(92, 112);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 8;
@@ -116,7 +118,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(198, 99);
+            this.label3.Location = new System.Drawing.Point(198, 112);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(101, 13);
             this.label3.TabIndex = 9;
@@ -125,7 +127,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(304, 99);
+            this.label4.Location = new System.Drawing.Point(304, 112);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(95, 13);
             this.label4.TabIndex = 10;
@@ -140,11 +142,29 @@
             this.label5.TabIndex = 11;
             this.label5.Text = "Путь до excel файла";
             // 
+            // txtBxJsonPath
+            // 
+            this.txtBxJsonPath.Location = new System.Drawing.Point(95, 76);
+            this.txtBxJsonPath.Name = "txtBxJsonPath";
+            this.txtBxJsonPath.Size = new System.Drawing.Size(312, 20);
+            this.txtBxJsonPath.TabIndex = 12;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(95, 60);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(103, 13);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "Путь до файла json";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(550, 323);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtBxJsonPath);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -178,6 +198,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtBxJsonPath;
+        private System.Windows.Forms.Label label6;
     }
 }
 

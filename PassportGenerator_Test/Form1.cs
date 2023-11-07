@@ -25,81 +25,24 @@ namespace GoogleSheetsDownloader {
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         // Указываем название проекта, который создали в Google Cloud
         static string ApplicationName = "PassportGenerator";
-
+        
         public Form1() {
             InitializeComponent();
         }
 
-
+        /// <summary>
+        /// Действие на кнопку "Import data from Google"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e) {
-            /*
-            string sheetlist_name = "Atom";
-            string begin_column_address = "A";
-            string begin_string_number = "3";
-            string end_column_name = "J";
-            string end_string_number = "21";
-            //string excefile_name = "C:\\WORK\\PROJECTS\\GoogleSheetsDownloader\\test.xlsx";
-
-            // Путь к файлу Excel, в который будут записаны данные
-            string excefile_name = "C:\\WORK\\PROJECTS\\GoogleSheetsDownloader\\Устройства.xlsx";
-
-            // Учетные данные Google для доступа к Google Sheets
-            GoogleCredential credential;
-
-
-            // Чтение учетных данных из файла JSON
-            using (var stream =
-                new FileStream("C:\\WORK\\PROJECTS\\GoogleSheetsDownloader\\passportgenerator-403707-030caf5e945d — копия.json", FileMode.Open, FileAccess.Read)) {
-                credential = GoogleCredential.FromStream(stream)
-                    .CreateScoped(Scopes);
-            }
-
-            // Создание сервиса Google Sheets с использованием учетных данных
-            var service = new SheetsService(new BaseClientService.Initializer() {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
-            });
-
-            // ID таблицы Google Sheets, из которой будут извлекаться данные
-            // string spreadsheetId = "1CQa3-cxfpkUM5bzDUffMbXS0VmhFO3P868dL8Vt06Jg";
-            string spreadsheetId =  "1Id_kNKmrMSUpalwY9rUf0uo8wNLBja9qo0Hw7Xe4gy0";
             
-            // Формируем строку диапазона для извлечения данных
-            string range = $"{sheetlist_name}!{begin_column_address}{begin_string_number}:{end_column_name}";
-            SpreadsheetsResource.ValuesResource.GetRequest request =
-                    service.Spreadsheets.Values.Get(spreadsheetId, range);
-
-            // Выполнение запроса и получение данных из Google Sheets
-            IList<IList<Object>> values = request.Execute().Values;
-
-            // Указания типа лицензии для библиотеки EPPlus, которая помогает работать с excel
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-            // Если данные получены, они записываются в Excel
-            if (values != null && values.Count > 0) {
-                using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(excefile_name))) {
-                    //var worksheet = excelPackage.Workbook.Worksheets.Add("S1");
-                    var worksheet = excelPackage.Workbook.Worksheets[0]; // Получить первый лист
-                    int startRowInExcel = FindFirstEmptyRow(excelPackage, worksheet);
-                    
-                    // Очищаем документ с конца и до второй строки
-                    //ResetExcelRows(excelPackage, worksheet);
-
-                    // Заполняем excel файл данными
-                    for (int i = 0; i < values.Count; i++) {
-                        for (int j = 0; j < values[i].Count; j++) {
-                            worksheet.Cells[startRowInExcel + i, j + 1].Value = values[i][j];
-                        }
-                    }
-
-                    excelPackage.Save();
-                }
-            }*/
+            string json_path = ReadJson();
             string excefile_name = ExcelFileName();
             string range = GetRangeFromTxtBox();
             // string spreadsheetId = "1Id_kNKmrMSUpalwY9rUf0uo8wNLBja9qo0Hw7Xe4gy0";
             string spreadsheetId = GoogleSheetsID();
-            IList<IList<Object>> values = ConnectGoogleSheets(spreadsheetId, range);
+            IList<IList<Object>> values = ConnectGoogleSheets(json_path, spreadsheetId, range);
             FillInAnExcel(values, excefile_name);
 
         }
@@ -110,13 +53,13 @@ namespace GoogleSheetsDownloader {
         /// <param name="range">Строка с диапазоном требуемых значений</param>
         /// <param name=""></param>
         /// <returns></returns>
-        static IList<IList<Object>> ConnectGoogleSheets(string spreadsheetId, string range) {
+        static IList<IList<Object>> ConnectGoogleSheets(string json_path, string spreadsheetId, string range) {
             GoogleCredential credential;
 
 
             // Чтение учетных данных из файла JSON
             using (var stream =
-                new FileStream("C:\\WORK\\PROJECTS\\GoogleSheetsDownloader\\passportgenerator-403707-030caf5e945d.json", FileMode.Open, FileAccess.Read)) {
+                new FileStream(json_path, FileMode.Open, FileAccess.Read)) {
                 credential = GoogleCredential.FromStream(stream)
                     .CreateScoped(Scopes);
 
@@ -160,10 +103,14 @@ namespace GoogleSheetsDownloader {
             string begin_row = txtBxStartRange.Text;
             string end_row = txtBxEndRange.Text;
             string sheetlist_name = txtBxListName.Text;
+
+            // Формируем строку диапазона
             string range = $"{sheetlist_name}!{begin_row}:{end_row}";
 
             return range;
         }
+
+
         /// <summary>
         /// Метод для поиска первое пустой строки
         /// </summary>
@@ -222,6 +169,13 @@ namespace GoogleSheetsDownloader {
             return txtBxExcelFile.Text;
         }
 
+        /// <summary>
+        /// Метод для считывания пути до json-файла
+        /// </summary>
+        /// <returns></returns>
+        private string ReadJson() { 
+            return txtBxJsonPath.Text;
+        }
         /// <summary>
         /// Действие на кнопку "Очистить excel файл"
         /// </summary>
