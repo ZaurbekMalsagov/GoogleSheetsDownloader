@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassportGenerator_Test", "PassportGenerator_Test\PassportGenerator_Test.csproj", "{2EBAD480-1E1E-45CA-8194-D3D7A55C526C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleSheetsDownloader", "PassportGenerator_Test\GoogleSheetsDownloader.csproj", "{2EBAD480-1E1E-45CA-8194-D3D7A55C526C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

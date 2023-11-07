@@ -17,15 +17,19 @@ using Google.Apis.Util.Store;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 using Newtonsoft.Json.Converters;
 using static OfficeOpenXml.ExcelErrorValue;
+using System.Runtime.CompilerServices;
 
-namespace PassportGenerator_Test {
+namespace GoogleSheetsDownloader {
     public partial class Form1: Form {
+        // Определяем права доступа пользователя 
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
+        // Указываем название проекта, который создали в Google Cloud
         static string ApplicationName = "PassportGenerator";
-        
+
         public Form1() {
             InitializeComponent();
         }
+
 
         private void button1_Click(object sender, EventArgs e) {
             /*
@@ -34,10 +38,10 @@ namespace PassportGenerator_Test {
             string begin_string_number = "3";
             string end_column_name = "J";
             string end_string_number = "21";
-            //string excefile_name = "C:\\WORK\\PROJECTS\\PassportGenerator_Test\\test.xlsx";
+            //string excefile_name = "C:\\WORK\\PROJECTS\\GoogleSheetsDownloader\\test.xlsx";
 
             // Путь к файлу Excel, в который будут записаны данные
-            string excefile_name = "C:\\WORK\\PROJECTS\\PassportGenerator_Test\\Устройства.xlsx";
+            string excefile_name = "C:\\WORK\\PROJECTS\\GoogleSheetsDownloader\\Устройства.xlsx";
 
             // Учетные данные Google для доступа к Google Sheets
             GoogleCredential credential;
@@ -45,7 +49,7 @@ namespace PassportGenerator_Test {
 
             // Чтение учетных данных из файла JSON
             using (var stream =
-                new FileStream("C:\\WORK\\PROJECTS\\PassportGenerator_Test\\passportgenerator-403707-030caf5e945d — копия.json", FileMode.Open, FileAccess.Read)) {
+                new FileStream("C:\\WORK\\PROJECTS\\GoogleSheetsDownloader\\passportgenerator-403707-030caf5e945d — копия.json", FileMode.Open, FileAccess.Read)) {
                 credential = GoogleCredential.FromStream(stream)
                     .CreateScoped(Scopes);
             }
@@ -91,9 +95,11 @@ namespace PassportGenerator_Test {
                     excelPackage.Save();
                 }
             }*/
-            string excefile_name = textBox4.Text;
+            string excefile_name = ExcelFileName();
             string range = GetRangeFromTxtBox();
-            IList<IList<Object>> values = ConnectGoogleSheets(range);
+            // string spreadsheetId = "1Id_kNKmrMSUpalwY9rUf0uo8wNLBja9qo0Hw7Xe4gy0";
+            string spreadsheetId = GoogleSheetsID();
+            IList<IList<Object>> values = ConnectGoogleSheets(spreadsheetId, range);
             FillInAnExcel(values, excefile_name);
 
         }
@@ -104,15 +110,16 @@ namespace PassportGenerator_Test {
         /// <param name="range">Строка с диапазоном требуемых значений</param>
         /// <param name=""></param>
         /// <returns></returns>
-        static IList<IList<Object>> ConnectGoogleSheets(string range) {
+        static IList<IList<Object>> ConnectGoogleSheets(string spreadsheetId, string range) {
             GoogleCredential credential;
 
 
             // Чтение учетных данных из файла JSON
             using (var stream =
-                new FileStream("C:\\WORK\\PROJECTS\\PassportGenerator_Test\\passportgenerator-403707-030caf5e945d — копия.json", FileMode.Open, FileAccess.Read)) {
+                new FileStream("C:\\WORK\\PROJECTS\\GoogleSheetsDownloader\\passportgenerator-403707-030caf5e945d — копия.json", FileMode.Open, FileAccess.Read)) {
                 credential = GoogleCredential.FromStream(stream)
                     .CreateScoped(Scopes);
+
             }
 
             // Создание сервиса Google Sheets с использованием учетных данных
@@ -121,9 +128,8 @@ namespace PassportGenerator_Test {
                 ApplicationName = ApplicationName,
             });
 
-            // ID таблицы Google Sheets, из которой будут извлекаться данные
-            // string spreadsheetId = "1CQa3-cxfpkUM5bzDUffMbXS0VmhFO3P868dL8Vt06Jg";
-            string spreadsheetId = "1Id_kNKmrMSUpalwY9rUf0uo8wNLBja9qo0Hw7Xe4gy0";
+            
+            
             SpreadsheetsResource.ValuesResource.GetRequest request =
                     service.Spreadsheets.Values.Get(spreadsheetId, range);
 
@@ -139,7 +145,7 @@ namespace PassportGenerator_Test {
         /// <param name="excelPackage">Экземпляр ExcelPackage</param>
         /// <param name="worksheet_number">Номер листа</param>
         static void ResetExcelRows(ExcelPackage excelPackage, ExcelWorksheet worksheet) {
-            
+
             int startRowInExcel = 2;
             for (int i = worksheet.Dimension.End.Row; i >= startRowInExcel; i--) {
                 worksheet.DeleteRow(i);
@@ -150,10 +156,10 @@ namespace PassportGenerator_Test {
         /// Метод для формирования строки диапазона считав данные с textBox формы
         /// </summary>
         /// <returns></returns>
-        internal string GetRangeFromTxtBox() {
-            string begin_row = textBox1.Text;
-            string end_row = textBox2.Text;
-            string sheetlist_name = textBox3.Text;
+        private string GetRangeFromTxtBox() {
+            string begin_row = txtBxStartRange.Text;
+            string end_row = txtBxEndRange.Text;
+            string sheetlist_name = txtBxListName.Text;
             string range = $"{sheetlist_name}!{begin_row}:{end_row}";
 
             return range;
@@ -183,12 +189,9 @@ namespace PassportGenerator_Test {
             // Если данные получены, они записываются в Excel
             if (values != null && values.Count > 0) {
                 using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(excefile_name))) {
-                    //var worksheet = excelPackage.Workbook.Worksheets.Add("S1");
+                    
                     var worksheet = excelPackage.Workbook.Worksheets[0]; // Получить первый лист
                     int startRowInExcel = FindFirstEmptyRow(excelPackage, worksheet);
-
-                    // Очищаем документ с конца и до второй строки
-                    //ResetExcelRows(excelPackage, worksheet);
 
                     // Заполняем excel файл данными
                     for (int i = 0; i < values.Count; i++) {
@@ -200,7 +203,23 @@ namespace PassportGenerator_Test {
                     excelPackage.Save();
                 }
             }
-            
+
+        }
+
+        /// <summary>
+        /// Метод для считывания ID Google таблицы
+        /// </summary>
+        /// <returns></returns>
+        private string GoogleSheetsID() { 
+            return txtBxIdTable.Text;
+        }
+
+        /// <summary>
+        /// Метод для считывания пути до excel-файла в который копируются данные
+        /// </summary>
+        /// <returns></returns>
+        private string ExcelFileName() {
+            return txtBxExcelFile.Text;
         }
 
         /// <summary>
@@ -209,7 +228,7 @@ namespace PassportGenerator_Test {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnReset_Click(object sender, EventArgs e) {
-            string excefile_name = textBox4.Text;
+            string excefile_name = ExcelFileName();
             
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(excefile_name))) {
