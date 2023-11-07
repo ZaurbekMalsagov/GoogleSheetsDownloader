@@ -116,7 +116,7 @@ namespace GoogleSheetsDownloader {
 
             // Чтение учетных данных из файла JSON
             using (var stream =
-                new FileStream("C:\\WORK\\PROJECTS\\GoogleSheetsDownloader\\passportgenerator-403707-030caf5e945d — копия.json", FileMode.Open, FileAccess.Read)) {
+                new FileStream("C:\\WORK\\PROJECTS\\GoogleSheetsDownloader\\passportgenerator-403707-030caf5e945d.json", FileMode.Open, FileAccess.Read)) {
                 credential = GoogleCredential.FromStream(stream)
                     .CreateScoped(Scopes);
 
