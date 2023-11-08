@@ -48,6 +48,27 @@ namespace GoogleSheetsDownloader {
         }
 
         /// <summary>
+        /// Действие на кнопку "Очистить excel файл"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnReset_Click(object sender, EventArgs e) {
+            string excefile_name = ExcelFileName();
+            
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(excefile_name))) {
+                
+                var worksheet = excelPackage.Workbook.Worksheets[0]; // Получить первый лист
+
+                ResetExcelRows(excelPackage, worksheet);
+
+                excelPackage.Save();
+            }
+            
+
+        }
+
+        /// <summary>
         /// Метод для связи с Google Sheets. Считывание учетных данных из json google cloud, определение ID таблицы из которой берутся данные. 
         /// </summary>
         /// <param name="range">Строка с диапазоном требуемых значений</param>
@@ -154,47 +175,24 @@ namespace GoogleSheetsDownloader {
         }
 
         /// <summary>
-        /// Метод для считывания ID Google таблицы
+        /// Cчитывание ID Google таблицы
         /// </summary>
         /// <returns></returns>
-        private string GoogleSheetsID() { 
-            return txtBxIdTable.Text;
-        }
-
+        private string GoogleSheetsID() => txtBxIdTable.Text;
+        
         /// <summary>
         /// Метод для считывания пути до excel-файла в который копируются данные
         /// </summary>
         /// <returns></returns>
-        private string ExcelFileName() {
-            return txtBxExcelFile.Text;
-        }
+        private string ExcelFileName() => txtBxExcelFile.Text;
+        
 
         /// <summary>
         /// Метод для считывания пути до json-файла
         /// </summary>
         /// <returns></returns>
-        private string ReadJson() { 
-            return txtBxJsonPath.Text;
-        }
-        /// <summary>
-        /// Действие на кнопку "Очистить excel файл"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnReset_Click(object sender, EventArgs e) {
-            string excefile_name = ExcelFileName();
-            
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(excefile_name))) {
-                
-                var worksheet = excelPackage.Workbook.Worksheets[0]; // Получить первый лист
-
-                ResetExcelRows(excelPackage, worksheet);
-
-                excelPackage.Save();
-            }
-            
-
-        }
+        private string ReadJson() => txtBxJsonPath.Text;
+        
+        
     }
 }
