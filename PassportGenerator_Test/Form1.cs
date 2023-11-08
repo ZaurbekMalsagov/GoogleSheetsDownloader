@@ -24,7 +24,7 @@ namespace GoogleSheetsDownloader {
         // Определяем права доступа пользователя 
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         // Указываем название проекта, который создали в Google Cloud
-        static string ApplicationName = "PassportGenerator";
+        static string ApplicationName = "";
         
         public Form1() {
             InitializeComponent();
