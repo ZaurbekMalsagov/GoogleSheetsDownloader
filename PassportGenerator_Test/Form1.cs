@@ -36,19 +36,14 @@ namespace GoogleSheetsDownloader {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e) {
-            try { 
-                string json_path = ReadJson();
-                string excefile_name = ExcelFileName();
-                string range = GetRangeFromTxtBox();
-                // string spreadsheetId = "1Id_kNKmrMSUpalwY9rUf0uo8wNLBja9qo0Hw7Xe4gy0";
-                string spreadsheetId = GoogleSheetsID();
-                IList<IList<Object>> values = ConnectGoogleSheets(json_path, spreadsheetId, range);
-                FillInAnExcel(values, excefile_name);
-            
-            } catch {
-                MessageBox.Show("Ошибка при попытке загрузить данные с таблицы. Проверьте введенные данные.");
-            }
+            string json_path = ReadJson();
+            string excefile_name = ExcelFileName();
+            string range = GetRangeFromTxtBox();
+            string spreadsheetId = GoogleSheetsID();
 
+
+            IList<IList<Object>> values = ConnectGoogleSheets(json_path, spreadsheetId, range);
+            FillInAnExcel(values, excefile_name);
         }
 
         /// <summary>
@@ -58,19 +53,15 @@ namespace GoogleSheetsDownloader {
         /// <param name="e"></param>
         private void btnReset_Click(object sender, EventArgs e) {
             string excefile_name = ExcelFileName();
-            try {
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(excefile_name))) {
+            
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (ExcelPackage excelPackage = new ExcelPackage(new FileInfo(excefile_name))) {
                 
-                    var worksheet = excelPackage.Workbook.Worksheets[0]; // Получить первый лист
+                var worksheet = excelPackage.Workbook.Worksheets[0]; // Получить первый лист
 
-                    ResetExcelRows(excelPackage, worksheet);
+                ResetExcelRows(excelPackage, worksheet);
 
-                    excelPackage.Save();
-                }
-
-            } catch {
-                MessageBox.Show("Ошибка при попытке очистить файл. Проверьте закрыт ли файл.");
+                excelPackage.Save();
             }
             
 
@@ -100,8 +91,6 @@ namespace GoogleSheetsDownloader {
                 ApplicationName = ApplicationName,
             });
 
-            
-            
             SpreadsheetsResource.ValuesResource.GetRequest request =
                     service.Spreadsheets.Values.Get(spreadsheetId, range);
 
@@ -183,7 +172,7 @@ namespace GoogleSheetsDownloader {
         }
 
         /// <summary>
-        /// Считывание ID Google таблицы
+        /// Cчитывание ID Google таблицы
         /// </summary>
         /// <returns></returns>
         private string GoogleSheetsID() => txtBxIdTable.Text;
