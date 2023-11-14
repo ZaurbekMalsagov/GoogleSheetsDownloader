@@ -9,13 +9,20 @@ using System.Threading.Tasks;
 namespace PassportGenerator_Test.Model {
     internal class GoogleSettings {
         // Определяем права доступа пользователя к таблице
-        internal string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
+        internal string[] Scopes { get; set; } = { SheetsService.Scope.SpreadsheetsReadonly };
 
         // Указываем название проекта, который создали в Google Cloud
-        internal string ApplicationName = "PassportGenerator";
+        internal string ApplicationName { get; set; }
 
-        internal string fileName = "passportgenerator-403707-030caf5e945d.json";
+        public string fileName { get; set; } // "passportgenerator-403707-030caf5e945d.json";
+
+        internal string spreadsheetId { get; set; }
+
+        internal string json_path() => Path.GetFullPath(fileName);
+
+
 
         // internal string json_path = Path.GetFullPath(fileName);
+
     }
 }

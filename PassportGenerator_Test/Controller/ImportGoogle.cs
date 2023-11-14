@@ -11,10 +11,22 @@ using System.Threading.Tasks;
 using static Google.Apis.Sheets.v4.SheetsService;
 using PassportGenerator_Test.Model;
 using OfficeOpenXml;
+using System.Data;
+using System.Windows.Forms;
+using System.Configuration;
 
 namespace PassportGenerator_Test {
     internal class ImportGoogle {
-        readonly GoogleSettings GoogleSettings = new GoogleSettings();
+        public GoogleSettings settings = new GoogleSettings();
+        
+        
+        // internal string json_path = Path.GetFullPath(GoogleStg.fileName);
+        // GoogleStg.ApplicationName = "PassportGenerator";
+        public ImportGoogle(string spreadsheetId) {
+            settings.spreadsheetId = spreadsheetId;
+            settings.ApplicationName = "PassportGenerator";
+            string json_path = settings.json_path();
+        }
 
 
         /// <summary>

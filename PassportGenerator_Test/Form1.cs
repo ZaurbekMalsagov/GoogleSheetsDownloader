@@ -39,7 +39,7 @@ namespace GoogleSheetsDownloader {
             string json_path = ReadJson();
             string excefile_name = ExcelFileName();
             string range = GetRangeFromTxtBox();
-            string spreadsheetId = GoogleSheetsID(); // string spreadsheetId = "1Id_kNKmrMSUpalwY9rUf0uo8wNLBja9qo0Hw7Xe4gy0";
+            string spreadsheetId = GoogleSheetsID(); 
 
 
             IList<IList<Object>> values = ConnectGoogleSheets(json_path, spreadsheetId, range);
