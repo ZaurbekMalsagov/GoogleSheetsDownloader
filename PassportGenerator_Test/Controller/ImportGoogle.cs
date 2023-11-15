@@ -38,7 +38,7 @@ namespace PassportGenerator_Test {
         /// </summary>
         /// <param name="range"></param>
         /// <param name="excelfile_name"></param>
-        internal static void ImportDataFromGoogle(string range, string excelfile_name) {
+        internal void ImportDataFromGoogle(string range, string excelfile_name) {
             IList<IList<Object>> values = GetGoogleSheetsValue(json_path, spreadsheetId, range);
             FillInAnExcel(values, excelfile_name);
         }
@@ -49,7 +49,7 @@ namespace PassportGenerator_Test {
         /// <param name="range">Строка с диапазоном требуемых значений</param>
         /// <param name=""></param>
         /// <returns></returns>
-        internal static IList<IList<Object>> GetGoogleSheetsValue(string json_path, string spreadsheetId, string range) {
+        internal IList<IList<Object>> GetGoogleSheetsValue(string json_path, string spreadsheetId, string range) {
 
             var service = CreateConnectionGoogle();
             SpreadsheetsResource.ValuesResource.GetRequest request =
@@ -65,7 +65,7 @@ namespace PassportGenerator_Test {
         /// Получаем список листов из Google
         /// </summary>
         /// <returns></returns>
-        internal static List<string> GetListsFromSheets() {
+        internal List<string> GetListsFromSheets() {
             var service = CreateConnectionGoogle();
 
             // Получение информации о таблице
@@ -81,14 +81,14 @@ namespace PassportGenerator_Test {
         /// Установка связи с таблицей Google
         /// </summary>
         /// <returns></returns>
-        private static SheetsService CreateConnectionGoogle() {
+        private SheetsService CreateConnectionGoogle() {
             GoogleCredential credential;
 
             // Чтение учетных данных из файла JSON
             using (var stream =
                 new FileStream(json_path, FileMode.Open, FileAccess.Read)) {
                 credential = GoogleCredential.FromStream(stream)
-                    .CreateScoped(Scopes);
+                    .CreateScoped(settings.Scopes);
 
             }
 
