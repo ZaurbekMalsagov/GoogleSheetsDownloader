@@ -18,14 +18,18 @@ using System.Configuration;
 namespace PassportGenerator_Test {
     internal class ImportGoogle {
         public GoogleSettings settings = new GoogleSettings();
-        
-        
+        private string json_path;
+        private string fileName;
+        private string spreadsheetId;
+        private string ApplicationName;
+
         // internal string json_path = Path.GetFullPath(GoogleStg.fileName);
         // GoogleStg.ApplicationName = "PassportGenerator";
-        public ImportGoogle(string spreadsheetId) {
+        public ImportGoogle(string spreadsheetId, string fileName) {
+            settings.fileName = fileName;
             settings.spreadsheetId = spreadsheetId;
             settings.ApplicationName = "PassportGenerator";
-            string json_path = settings.json_path();
+            json_path = settings.json_path(fileName);
         }
 
 
@@ -35,7 +39,7 @@ namespace PassportGenerator_Test {
         /// <param name="range"></param>
         /// <param name="excelfile_name"></param>
         internal static void ImportDataFromGoogle(string range, string excelfile_name) {
-            IList<IList<Object>> values = GetGoogleSheetsValue(GoogleSettings.json_path, spreadsheetId, range);
+            IList<IList<Object>> values = GetGoogleSheetsValue(json_path, spreadsheetId, range);
             FillInAnExcel(values, excelfile_name);
         }
 

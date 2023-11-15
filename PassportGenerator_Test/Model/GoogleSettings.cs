@@ -18,7 +18,7 @@ namespace PassportGenerator_Test.Model {
 
         internal string spreadsheetId { get; set; }
 
-        internal string json_path() => Path.GetFullPath(fileName);
+        internal string json_path(string fileName) => Path.GetFullPath(fileName);
 
 
 
