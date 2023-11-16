@@ -18,13 +18,16 @@ using LicenseContext = OfficeOpenXml.LicenseContext;
 using Newtonsoft.Json.Converters;
 using static OfficeOpenXml.ExcelErrorValue;
 using System.Runtime.CompilerServices;
+using GoogleSheetsDownloader.Model;
 
 namespace GoogleSheetsDownloader {
     public partial class Form1: Form {
+        
+        private GoogleSettings googleSettings;
         // Определяем права доступа пользователя 
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         // Указываем название проекта, который создали в Google Cloud
-        static string ApplicationName = "";
+        private string ApplicationName = ;
         
         public Form1() {
             InitializeComponent();
@@ -100,18 +103,7 @@ namespace GoogleSheetsDownloader {
             return values;
         }
 
-        /// <summary>
-        /// Очищаем строки excel-файла начиная со второй строки
-        /// </summary>
-        /// <param name="excelPackage">Экземпляр ExcelPackage</param>
-        /// <param name="worksheet_number">Номер листа</param>
-        static void ResetExcelRows(ExcelPackage excelPackage, ExcelWorksheet worksheet) {
-
-            int startRowInExcel = 2;
-            for (int i = worksheet.Dimension.End.Row; i >= startRowInExcel; i--) {
-                worksheet.DeleteRow(i);
-            }
-        }
+        
 
         /// <summary>
         /// Метод для формирования строки диапазона считав данные с textBox формы

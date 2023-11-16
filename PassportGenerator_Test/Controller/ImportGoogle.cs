@@ -9,13 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Google.Apis.Sheets.v4.SheetsService;
-using PassportGenerator_Test.Model;
+using GoogleSheetsDownloader.Model;
 using OfficeOpenXml;
 using System.Data;
 using System.Windows.Forms;
 using System.Configuration;
 
-namespace PassportGenerator_Test {
+namespace GoogleSheetsDownloader {
     internal class ImportGoogle {
         public GoogleSettings settings = new GoogleSettings();
         private string json_path;
@@ -133,13 +133,15 @@ namespace PassportGenerator_Test {
         /// <param name="excelPackage"></param>
         /// <param name="worksheet"></param>
         /// <param name="startRowInExcel"></param>
-        static int FindFirstEmptyRow(ExcelPackage excelPackage, ExcelWorksheet worksheet) {
+        internal int FindFirstEmptyRow(ExcelPackage excelPackage, ExcelWorksheet worksheet) {
             int startRowInExcel = 1;
             while (worksheet.Cells[startRowInExcel, 1].Value != null && startRowInExcel <= worksheet.Dimension.End.Row) {
                 startRowInExcel++;
             }
             return startRowInExcel;
         }
+
+        internal GoogleSettings ReturnExzemoplyarGoogleSet() => settings;
 
     }
 }

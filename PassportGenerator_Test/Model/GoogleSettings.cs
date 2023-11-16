@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PassportGenerator_Test.Model {
+namespace GoogleSheetsDownloader.Model {
     internal class GoogleSettings {
         // Определяем права доступа пользователя к таблице
         internal string[] Scopes { get; set; } = { SheetsService.Scope.SpreadsheetsReadonly };
