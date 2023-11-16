@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OfficeOpenXml;
 
-namespace PassportGenerator_Test.Controller {
+namespace GoogleSheetsDownloader.Controller {
     internal class ExcelWorkFunctions {
 
         /// <summary>
