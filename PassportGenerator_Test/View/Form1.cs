@@ -23,7 +23,7 @@ using GoogleSheetsDownloader.Model;
 namespace GoogleSheetsDownloader {
     public partial class Form1: Form {
         
-        private GoogleSettings googleSettings;
+        private GoogleSettings googleSettings = ImportGoogle.;
         // Определяем права доступа пользователя 
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         // Указываем название проекта, который создали в Google Cloud

@@ -105,7 +105,7 @@ namespace GoogleSheetsDownloader {
         /// </summary>
         /// <param name="values"></param>
         /// <param name="excefile_name"></param>
-        private static void FillInAnExcel(IList<IList<Object>> values, string excefile_name) {
+        private void FillInAnExcel(IList<IList<Object>> values, string excefile_name) {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             // Если данные получены, они записываются в Excel
@@ -128,7 +128,7 @@ namespace GoogleSheetsDownloader {
         }
 
         /// <summary>
-        /// Метод для поиска первое пустой строки
+        /// Метод для поиска первое пустой строки в файле excel
         /// </summary>
         /// <param name="excelPackage"></param>
         /// <param name="worksheet"></param>
@@ -141,7 +141,7 @@ namespace GoogleSheetsDownloader {
             return startRowInExcel;
         }
 
-        internal GoogleSettings ReturnExzemoplyarGoogleSet() => settings;
+       
 
     }
 }
