@@ -91,15 +91,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\ExcelWorkFunctions.cs" />
+    <Compile Include="Model\ExcelWorkFunc.cs" />
     <Compile Include="View\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controller\ImportGoogle.cs" />
-    <Compile Include="Model\GoogleSettings.cs" />
+    <Compile Include="Controller\GoogleDataControl.cs" />
+    <Compile Include="Model\ImportDataFromGoogle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="View\Form1.resx">
